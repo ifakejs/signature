@@ -6,6 +6,18 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>A signature library for web.</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .ifake-signature {
+      border: 1px solid #4bc7c4;
+      margin: 0 auto;
+      display: block;
+    }
+  </style>
 </head>
 <body>
 <h1 style="text-align: center;">A signature library for web.</h1>
@@ -14,11 +26,9 @@
 <script>
   const sig = new window.IfSignature({
     target: '#app',
-    className: 'app-ctx-wrapper',
-    styles: {
-      width: 800,
-      height: 300
-    }
+    customWidth: true,
+    width: 1200,
+    height: 500
   })
   sig.render()
 </script>
