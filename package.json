@@ -4,20 +4,23 @@
   "description": "A signature library for web.",
   "main": "dist/index.umd.js",
   "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "lint": "eslint src --fix --ext .ts",
-    "test": "jest --verbose -u",
-    "test:cover": "jest --coverage --verbose -u",
+    "test": "jest",
+    "test:cover": "jest --coverage",
     "start": "cross-env NODE_ENV=development rollup -c -w",
-    "build": "cross-env NODE_ENV=production rollup -c",
+    "build": "cross-env NODE_ENV=production rollup -c && yarn run build:clear",
+    "build:clear": "ts-node --project tsconfig.build.json scripts/build.ts",
     "start:example": "serve -l 8080 -C -n",
-    "dev": "npm-run-all --parallel start start:**"
+    "serve": "npm-run-all --parallel start start:**"
   },
   "files": [
     "lib",
     "dist"
   ],
-  "author": "",
+  "author": "ifake",
+  "license": "MIT",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -39,13 +42,18 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.1.0",
+    "@types/chalk": "^2.2.0",
     "@types/eslint-plugin-prettier": "^3.1.0",
+    "@types/fs-extra": "^9.0.6",
+    "@types/node": "^14.14.16",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
+    "chalk": "^4.1.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "fs-extra": "^9.0.1",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
     "lint-staged": "^10.5.2",
@@ -55,6 +63,7 @@
     "rollup-plugin-terser": "^7.0.2",
     "serve": "^11.3.2",
     "ts-jest": "^26.4.4",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.2"
   },
   "dependencies": {
