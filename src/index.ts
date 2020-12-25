@@ -1,3 +1,1 @@
-export function pkgAdd(a: number, b: number) {
-  return a + b
-}
+export { IfSignature } from './Signature'

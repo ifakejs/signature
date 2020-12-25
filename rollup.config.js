@@ -8,17 +8,29 @@ import pkg from './package.json'
 
 const isDev = process.env.NODE_ENV !== 'production'
 
+const banner = `/*!
+ * @ifake/signature
+ * (c) 2020-${new Date().getFullYear()} BiYuqi
+ * Released under the MIT License.
+ */`
+
 export default {
   input: './src/index.ts',
   output: [
     {
       file: pkg.main,
       format: 'umd',
-      name: 'example'
+      name: 'IfSignature',
+      exports: 'named',
+      footer:
+        'if(typeof window !== "undefined" && window.IfSignature) { \n' +
+        '  window.IfSignature = window.IfSignature.IfSignature;\n}',
+      banner
     },
     {
       file: pkg.module,
-      format: 'es'
+      format: 'es',
+      banner
     }
   ],
   external: [...Object.keys(pkg.dependencies)],
@@ -31,6 +43,8 @@ export default {
     }),
     json(),
     !isDev && terser(),
-    typescript()
+    typescript({
+      tsconfig: './tsconfig.json'
+    })
   ]
 }
