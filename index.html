@@ -12,23 +12,35 @@
       padding: 0;
       box-sizing: border-box;
     }
-    .ifake-signature {
-      border: 1px solid #4bc7c4;
-      margin: 0 auto;
-      display: block;
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+    #app {
+      height: 100%;
+      width: 100%;
+    }
+    #app-title {
+      text-align: center;
+      height: 60px;
+      line-height: 60px;
+    }
+    #app-canvas {
+      border: 2px dashed #4bc7c4;
+      width: 100%;
+      height: calc(100vh - 60px);
     }
   </style>
 </head>
 <body>
-<h1 style="text-align: center;">A signature library for web.</h1>
-<div id="app"></div>
+<div id="app">
+  <div id="app-title">A signature library for web.</div>
+  <canvas id="app-canvas"></canvas>
+</div>
 <script src="dist/index.umd.js"></script>
 <script>
   const sig = new window.IfSignature({
-    target: '#app',
-    customWidth: true,
-    width: 1200,
-    height: 500
+    target: '#app-canvas'
   })
   sig.render()
 </script>
