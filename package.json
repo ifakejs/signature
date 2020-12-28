@@ -19,6 +19,11 @@
     "lib",
     "dist"
   ],
+  "keywords": [
+    "signature",
+    "canvas",
+    "draw"
+  ],
   "author": "ifake",
   "license": "MIT",
   "husky": {

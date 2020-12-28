@@ -1,4 +1,4 @@
-import { $, addEvent } from './utils/dom'
+import { $, addEvent, getClientInfo, getOMRect } from './utils/dom'
 import { Options, OptionsConstructor } from './Options'
 import { sleep } from './utils/sleep'
 
@@ -13,8 +13,8 @@ interface EventType {
 }
 
 interface Point {
-  x: null | number
-  y: null | number
+  x: number
+  y: number
 }
 
 export class IfSignature {
@@ -31,16 +31,16 @@ export class IfSignature {
     }
     this.isMoving = false
     this.pointStart = {
-      x: null,
-      y: null
+      x: 0,
+      y: 0
     }
     this.pointMove = {
-      x: null,
-      y: null
+      x: 0,
+      y: 0
     }
-    this.canvas = <HTMLCanvasElement>$(target)
+    this.canvas = $(target) as HTMLCanvasElement
     this.options = new OptionsConstructor().merge(options)
-    this.ctx = <CanvasRenderingContext2D>this.canvas.getContext('2d')
+    this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
   }
 
   async render() {
@@ -48,28 +48,26 @@ export class IfSignature {
 
     const { fullPage } = this.options
     this.canvas.style.cursor = 'crosshair'
+    this.canvas.setAttribute('class', this.options.className)
     const { width, height } = window.getComputedStyle(this.canvas, null)
 
     let w, h
     try {
-      w = ~~width.replace('px', '')
-      h = ~~height.replace('px', '')
+      w = parseInt(width.replace('px', ''), 10)
+      h = parseInt(height.replace('px', ''), 10)
     } catch (e) {
       throw e.message
     }
-    const pageWidth = fullPage ? document.documentElement.clientWidth : w
-    const pageHeight = fullPage ? document.documentElement.clientHeight : h
+
+    const { clientHeight, clientWidth } = getClientInfo()
+    const pageWidth = fullPage ? clientWidth : w
+    const pageHeight = fullPage ? clientHeight : h
     this.canvas.style.width = `${pageWidth}px`
     this.canvas.style.height = `${pageHeight}px`
 
-    if (this.options.className) {
-      this.canvas.setAttribute('class', this.options.className)
-    }
-
-    const scale = (window as any).devicePixelRatio
-    this.canvas.width = Math.floor(pageWidth * scale)
-    this.canvas.height = Math.floor(pageHeight * scale)
-    this.ctx.scale(scale, scale)
+    this.canvas.width = Math.floor(pageWidth * this.options.devicePixelRatio)
+    this.canvas.height = Math.floor(pageHeight * this.options.devicePixelRatio)
+    this.ctx.scale(this.options.devicePixelRatio, this.options.devicePixelRatio)
 
     this.initialCtxStyle()
     this.bindEvent()
@@ -82,7 +80,7 @@ export class IfSignature {
     this.ctx.strokeStyle = this.options.strokeStyle
     if (!this.options.isMobile) {
       this.ctx.shadowBlur = 1
-      this.ctx.shadowColor = <string>this.options.strokeStyle
+      this.ctx.shadowColor = this.options.strokeStyle as string
     }
   }
 
@@ -102,21 +100,21 @@ export class IfSignature {
   }
 
   public getOffset(e: Event) {
+    const { left, top } = getOMRect(this.canvas)
     if (this.options.isMobile) {
       return {
-        left: (e as TouchEvent).touches[0].clientX - this.canvas.getBoundingClientRect().left,
-        top: (e as TouchEvent).touches[0].clientY - this.canvas.getBoundingClientRect().top
+        left: (e as TouchEvent).touches[0].clientX - left,
+        top: (e as TouchEvent).touches[0].clientY - top
       }
     }
     return {
-      left: (e as MouseEvent).clientX - this.canvas.getBoundingClientRect().left,
-      top: (e as MouseEvent).clientY - this.canvas.getBoundingClientRect().top
+      left: (e as MouseEvent).clientX - left,
+      top: (e as MouseEvent).clientY - top
     }
   }
 
   public bindEvent(): void {
     const { start, move, end } = this.adaptEventType()
-    addEvent(this.canvas, start, this.handleStart.bind(this))
     const requestAnimationFrame = window.requestAnimationFrame
     const optimizedMove = requestAnimationFrame
       ? (e: Event) => {
@@ -125,6 +123,7 @@ export class IfSignature {
           })
         }
       : this.handleMove
+    addEvent(this.canvas, start, this.handleStart.bind(this))
     addEvent(this.canvas, move, optimizedMove.bind(this))
     addEvent(this.canvas, end, this.handleEnd.bind(this))
 
@@ -144,8 +143,8 @@ export class IfSignature {
       y: top
     }
     this.ctx.beginPath()
-    this.ctx.moveTo(<number>this.pointStart.x, <number>this.pointStart.y)
-    this.ctx.lineTo(<number>this.pointStart.x, <number>this.pointStart.y)
+    this.ctx.moveTo(this.pointStart.x, this.pointStart.y)
+    this.ctx.lineTo(this.pointStart.x, this.pointStart.y)
     this.ctx.stroke()
   }
 
@@ -157,7 +156,7 @@ export class IfSignature {
         x: left,
         y: top
       }
-      this.ctx.lineTo(<number>this.pointMove.x, <number>this.pointMove.y)
+      this.ctx.lineTo(this.pointMove.x, this.pointMove.y)
       this.ctx.stroke()
     }
   }

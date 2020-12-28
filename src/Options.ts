@@ -1,8 +1,6 @@
 export interface DefOptions {
   [key: string]: any
-  className?: string
-  width: number
-  height: number
+  className: string
   lineWidth: number
   lineCap: CanvasLineCap
   lineJoin: CanvasLineJoin
@@ -17,9 +15,7 @@ export interface Options extends DefOptions, CustomOptions {}
 
 export class OptionsConstructor extends CustomOptions implements DefOptions {
   [key: string]: any
-  className?: string
-  width: number
-  height: number
+  className: string
   lineWidth: number
   lineCap: CanvasLineCap
   lineJoin: CanvasLineJoin
@@ -30,8 +26,6 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
   constructor() {
     super()
     this.className = 'ifake-signature'
-    this.width = 800
-    this.height = 400
     this.lineWidth = 4
     this.lineCap = 'round'
     this.lineJoin = 'round'
