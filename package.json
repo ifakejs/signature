@@ -22,7 +22,8 @@
   "keywords": [
     "signature",
     "canvas",
-    "draw"
+    "draw",
+    "canvas-draw"
   ],
   "author": "ifake",
   "license": "MIT",

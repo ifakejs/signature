@@ -7,7 +7,7 @@ import {
   appendChild,
   createElem,
   getClientInfo,
-  getOMRect
+  getDOMRect
 } from './utils/dom'
 
 type StartType = 'touchstart' | 'mousedown'
@@ -140,7 +140,7 @@ export class IfSignature {
   }
 
   private getOffset(e: Event) {
-    const { left, top } = getOMRect(this.canvas)
+    const { left, top } = getDOMRect(this.canvas)
     if (this.options.isMobile) {
       return {
         left: (e as TouchEvent).touches[0].clientX - left,

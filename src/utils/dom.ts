@@ -37,6 +37,6 @@ export function getClientInfo() {
   }
 }
 
-export function getOMRect(target: HTMLElement) {
+export function getDOMRect(target: HTMLElement) {
   return target.getBoundingClientRect()
 }
