@@ -19,30 +19,85 @@
     #app {
       height: 100%;
       width: 100%;
+      display: flex;
+      flex-direction: column;
     }
     #app-title {
       text-align: center;
       height: 60px;
       line-height: 60px;
     }
-    #app-canvas {
+    #app canvas {
       border: 2px dashed #4bc7c4;
-      width: 100%;
-      height: calc(100vh - 60px);
+      flex: 1;
+    }
+    a {
+      color: #4bc7c4;
+      font-size: 18px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 <div id="app">
-  <div id="app-title">A signature library for web.</div>
-  <canvas id="app-canvas"></canvas>
+  <div id="app-title">
+    <label>A signature library for web.
+      <select id="app-select">
+        <option value="0">正常</option>
+        <option value="90">顺时针旋转90°</option>
+        <option value="180">顺时针旋转180°</option>
+        <option value="-90">逆时针旋转90°</option>
+      </select>
+    </label>
+    <a href="/normal.html">常规画板(无旋转)</a>
+  </div>
+  <!-- canvas will be inject here -->
 </div>
 <script src="dist/index.umd.js"></script>
 <script>
-  const sig = new window.IfSignature({
-    target: '#app-canvas'
+  let instance = null
+
+  function $(target) {
+    return document.querySelector(target)
+  }
+
+  function init(degree = 0) {
+    if (instance) {
+      instance.destory()
+      instance = null
+    }
+    instance = new window.IfSignature({
+      target: '#app',
+      degree
+    })
+  }
+  init()
+  $('#app-select').addEventListener('change', e => {
+    const degree = ~~e.target.value
+    const d = document;
+    const w = window.innerWidth || d.documentElement.clientWidth || d.body.clientWidth;
+    const h = window.innerHeight || d.documentElement.clientHeight || d.body.clientHeight;
+    let length = (h - w) / 2;
+    let width = w;
+    let height = h;
+    if (degree === -90) {
+      length = -length;
+      width = h;
+      height = w;
+    } else if (degree === 90) {
+      width = h;
+      height = w;
+    } else {
+      length = 0;
+    }
+    $('#app').setAttribute('style', `
+      transform: rotate(${degree}deg) translate(${length}px, ${length}px);
+      width: ${width}px;
+      height: ${height}px;
+      transform-origin: center center;
+    `.replace(/\n*\s*/gm, ''))
+    init(-degree)
   })
-  sig.render()
 </script>
 </body>
 </html>

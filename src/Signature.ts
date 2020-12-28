@@ -1,6 +1,14 @@
-import { $, addEvent, getClientInfo, getOMRect } from './utils/dom'
 import { Options, OptionsConstructor } from './Options'
 import { sleep } from './utils/sleep'
+import {
+  $,
+  addEvent,
+  addClass,
+  appendChild,
+  createElem,
+  getClientInfo,
+  getOMRect
+} from './utils/dom'
 
 type StartType = 'touchstart' | 'mousedown'
 type MoveType = 'touchmove' | 'mousemove'
@@ -17,63 +25,95 @@ interface Point {
   y: number
 }
 
+const defaultPoint = {
+  x: 0,
+  y: 0
+}
+
 export class IfSignature {
   public options: Options
   public canvas: HTMLCanvasElement
   public ctx: CanvasRenderingContext2D
-  public isMoving: boolean
-  public pointStart: Point
-  public pointMove: Point
+  public isMoving: boolean = false
+  public pointStart: Point = defaultPoint
+  public pointMove: Point = defaultPoint
+  public canvasWidth: number = 0
+  public canvasHeight: number = 0
   constructor(options: Options) {
     const { target } = options
     if (!target) {
-      throw 'The option [target] must be a string and recommend input an id. e.g: #app'
+      throw `The option [target] must be a dom class name or id which is the parent container of canvas.\nRecommend type an id. e.g: #app`
     }
-    this.isMoving = false
-    this.pointStart = {
-      x: 0,
-      y: 0
-    }
-    this.pointMove = {
-      x: 0,
-      y: 0
-    }
-    this.canvas = $(target) as HTMLCanvasElement
+
     this.options = new OptionsConstructor().merge(options)
+    const canvas = createElem('canvas') as HTMLCanvasElement
+    appendChild($(target) as HTMLElement, canvas)
+    addClass(canvas, this.options.className)
+    this.canvas = $(`.${canvas.className}`) as HTMLCanvasElement
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
+
+    this.render()
+    this.reset(this.options.degree)
+    this.initialCtxStyle()
+    this.bindEvent()
   }
 
-  async render() {
-    await sleep(10)
+  public destory() {
+    this.canvas?.parentNode?.removeChild(this.canvas)
+  }
 
+  public render() {
     const { fullPage } = this.options
     this.canvas.style.cursor = 'crosshair'
-    this.canvas.setAttribute('class', this.options.className)
-    const { width, height } = window.getComputedStyle(this.canvas, null)
-
-    let w, h
+    const { width, height } = window.getComputedStyle(this.ctx.canvas, null)
     try {
-      w = parseInt(width.replace('px', ''), 10)
-      h = parseInt(height.replace('px', ''), 10)
+      this.canvasWidth = parseInt(width.replace('px', ''), 10)
+      this.canvasHeight = parseInt(height.replace('px', ''), 10)
     } catch (e) {
       throw e.message
     }
 
     const { clientHeight, clientWidth } = getClientInfo()
-    const pageWidth = fullPage ? clientWidth : w
-    const pageHeight = fullPage ? clientHeight : h
+    const pageWidth = fullPage ? clientWidth : this.canvasWidth
+    const pageHeight = fullPage ? clientHeight : this.canvasHeight
     this.canvas.style.width = `${pageWidth}px`
     this.canvas.style.height = `${pageHeight}px`
 
     this.canvas.width = Math.floor(pageWidth * this.options.devicePixelRatio)
     this.canvas.height = Math.floor(pageHeight * this.options.devicePixelRatio)
     this.ctx.scale(this.options.devicePixelRatio, this.options.devicePixelRatio)
-
-    this.initialCtxStyle()
-    this.bindEvent()
   }
 
-  initialCtxStyle(): void {
+  public reset(degree: number) {
+    this.ctx.rotate((degree * Math.PI) / 180)
+    switch (degree) {
+      case -90:
+        this.ctx.translate(-this.canvasHeight, 0)
+        break
+      case 90:
+        this.ctx.translate(0, -this.canvasWidth)
+        break
+      case -180:
+      case 180:
+        this.ctx.translate(-this.canvasWidth, -this.canvasHeight)
+        break
+      default:
+    }
+  }
+
+  public clear() {
+    let width, height
+    if (this.options.degree === -90 || this.options.degree === 90) {
+      width = this.canvasHeight
+      height = this.canvasWidth
+    } else {
+      width = this.canvasWidth
+      height = this.canvasHeight
+    }
+    this.ctx.clearRect(0, 0, width, height)
+  }
+
+  private initialCtxStyle(): void {
     this.ctx.lineJoin = this.options.lineJoin
     this.ctx.lineCap = this.options.lineCap
     this.ctx.lineWidth = this.options.lineWidth
@@ -84,7 +124,7 @@ export class IfSignature {
     }
   }
 
-  adaptEventType(): EventType {
+  private adaptEventType(): EventType {
     if (this.options.isMobile) {
       return {
         start: 'touchstart',
@@ -99,7 +139,7 @@ export class IfSignature {
     }
   }
 
-  public getOffset(e: Event) {
+  private getOffset(e: Event) {
     const { left, top } = getOMRect(this.canvas)
     if (this.options.isMobile) {
       return {
@@ -166,15 +206,21 @@ export class IfSignature {
     this.isMoving = false
   }
 
-  get getCtx() {
-    return this.ctx
+  public async getPngImage(quality: any = 1): Promise<any> {
+    await sleep(10)
+    return Promise.resolve(this.canvas.toDataURL('image/png', quality))
   }
 
-  public getPngImage(): string {
-    return this.canvas.toDataURL('image/png')
+  public async getJpgImage(quality: any = 0.5): Promise<any> {
+    await sleep(10)
+    return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
 
   public getBlob(): string {
     return ''
+  }
+
+  get getCtx() {
+    return this.ctx
   }
 }

@@ -8,6 +8,7 @@ export interface DefOptions {
   fullPage: boolean
   isMobile: boolean
   devicePixelRatio: number
+  degree: number
 }
 
 export class CustomOptions {}
@@ -23,6 +24,7 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
   fullPage: boolean
   isMobile: boolean
   devicePixelRatio: number
+  degree: number
   constructor() {
     super()
     this.className = 'ifake-signature'
@@ -35,6 +37,7 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
       navigator.userAgent
     )
     this.devicePixelRatio = Math.max(window.devicePixelRatio || 1, 1)
+    this.degree = 0
   }
 
   merge(options?: Options) {
