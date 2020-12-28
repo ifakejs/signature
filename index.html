@@ -50,6 +50,7 @@
       </select>
     </label>
     <button class="get-blob">下载</button>
+    <button class="clear-blob">清除</button>
     <a href="/normal.html">常规画板(无旋转)</a>
   </div>
   <!-- canvas will be inject here -->
@@ -113,6 +114,10 @@
     a.href = url
     a.setAttribute('download', 'canvas')
     a.click()
+  })
+
+  $('.clear-blob').addEventListener('click', () => {
+    instance.clear()
   })
 </script>
 </body>
