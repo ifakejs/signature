@@ -56,6 +56,15 @@ export class IfSignature {
     this.reset(this.options.degree)
     this.initialCtxStyle()
     this.bindEvent()
+
+    // custom implementation
+    if (this.options.canvasProcessor && typeof this.options.canvasProcessor === 'function') {
+      this.options.canvasProcessor(this.canvas)
+    }
+    // custom implementation
+    if (this.options.ctxProcessor && typeof this.options.ctxProcessor === 'function') {
+      this.options.ctxProcessor(this.ctx)
+    }
   }
 
   public destory() {
@@ -216,11 +225,17 @@ export class IfSignature {
     return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
 
-  public getBlob(): string {
-    return ''
-  }
+  public async getBlob(): Promise<Blob> {
+    const dataURI = await this.getPngImage()
+    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+    const byteString = atob(dataURI.split(',')[1])
+    const arrayBuffer = new ArrayBuffer(byteString.length)
+    const intArray = new Uint8Array(arrayBuffer)
+    const byteLen = byteString.length
 
-  get getCtx() {
-    return this.ctx
+    for (let i = 0; i < byteLen; i++) {
+      intArray[i] = byteString.charCodeAt(i)
+    }
+    return Promise.resolve(new Blob([intArray], { type: mimeString }))
   }
 }

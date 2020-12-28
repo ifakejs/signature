@@ -1,30 +1,35 @@
 export interface DefOptions {
   [key: string]: any
-  className: string
-  lineWidth: number
-  lineCap: CanvasLineCap
-  lineJoin: CanvasLineJoin
-  strokeStyle: string | CanvasGradient | CanvasPattern
-  fullPage: boolean
-  isMobile: boolean
-  devicePixelRatio: number
-  degree: number
+  readonly className: string
+  readonly lineWidth: number
+  readonly lineCap: CanvasLineCap
+  readonly lineJoin: CanvasLineJoin
+  readonly strokeStyle: string | CanvasGradient | CanvasPattern
+  readonly fullPage: boolean
+  readonly isMobile: boolean
+  readonly devicePixelRatio: number
+  readonly degree: number
+  ctxProcessor?: (ctx: CanvasRenderingContext2D) => void
+  canvasProcessor?: (ctx: HTMLCanvasElement) => void
 }
 
 export class CustomOptions {}
 export interface Options extends DefOptions, CustomOptions {}
+const blockProperties = ['devicePixelRatio', 'isMobile']
 
 export class OptionsConstructor extends CustomOptions implements DefOptions {
   [key: string]: any
-  className: string
-  lineWidth: number
-  lineCap: CanvasLineCap
-  lineJoin: CanvasLineJoin
-  strokeStyle: string | CanvasGradient | CanvasPattern
-  fullPage: boolean
-  isMobile: boolean
-  devicePixelRatio: number
-  degree: number
+  readonly className: string
+  readonly lineWidth: number
+  readonly lineCap: CanvasLineCap
+  readonly lineJoin: CanvasLineJoin
+  readonly strokeStyle: string | CanvasGradient | CanvasPattern
+  readonly fullPage: boolean
+  readonly isMobile: boolean
+  readonly devicePixelRatio: number
+  readonly degree: number
+  ctxProcessor?: (ctx: CanvasRenderingContext2D) => void
+  canvasProcessor?: (ctx: HTMLCanvasElement) => void
   constructor() {
     super()
     this.className = 'ifake-signature'
@@ -43,7 +48,9 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
   merge(options?: Options) {
     if (!options) return this
     for (const key in options) {
-      this[key] = options[key]
+      if (!blockProperties.includes(key)) {
+        this[key] = options[key]
+      }
     }
     return this
   }

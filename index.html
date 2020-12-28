@@ -49,6 +49,7 @@
         <option value="-90">逆时针旋转90°</option>
       </select>
     </label>
+    <button class="get-blob">下载</button>
     <a href="/normal.html">常规画板(无旋转)</a>
   </div>
   <!-- canvas will be inject here -->
@@ -68,7 +69,13 @@
     }
     instance = new window.IfSignature({
       target: '#app',
-      degree
+      degree,
+      canvasProcessor: canvas => {
+        console.log(canvas)
+      },
+      ctxProcessor: ctx => {
+        console.log(ctx)
+      }
     })
   }
   init()
@@ -97,6 +104,15 @@
       transform-origin: center center;
     `.replace(/\n*\s*/gm, ''))
     init(-degree)
+  })
+
+  $('.get-blob').addEventListener('click', async () => {
+    const blob = await instance.getBlob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.setAttribute('download', 'canvas')
+    a.click()
   })
 </script>
 </body>
