@@ -25,14 +25,14 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "./src/*",
-    "__test__"
+    "./src/*"
   ],
   "exclude": [
     "node_modules",
     "dist",
     "build",
     "lib",
-    "examples"
+    "examples",
+    "__test__"
   ]
 }

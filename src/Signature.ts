@@ -39,7 +39,7 @@ export class IfSignature {
   public pointMove: Point = defaultPoint
   public canvasWidth: number = 0
   public canvasHeight: number = 0
-  constructor(options: Options) {
+  constructor(options: Partial<Options>) {
     const { target } = options
     if (!target) {
       throw `The option [target] must be a dom class name or id which is the parent container of canvas.\nRecommend type an id. e.g: #app`

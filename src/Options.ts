@@ -45,7 +45,7 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
     this.degree = 0
   }
 
-  merge(options?: Options) {
+  merge(options?: Partial<Options>) {
     if (!options) return this
     for (const key in options) {
       if (!blockProperties.includes(key)) {

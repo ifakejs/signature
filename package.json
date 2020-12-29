@@ -7,8 +7,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "lint": "eslint src --fix --ext .ts",
-    "test": "jest",
-    "test:cover": "jest --coverage",
+    "test": "jest --coverage",
     "start": "cross-env NODE_ENV=development rollup -c -w",
     "build": "cross-env NODE_ENV=production rollup -c && yarn run build:clear",
     "build:clear": "ts-node --project tsconfig.build.json scripts/build.ts",
@@ -62,6 +61,7 @@
     "fs-extra": "^9.0.1",
     "husky": "^4.3.0",
     "jest": "^26.6.3",
+    "jest-canvas-mock": "^2.3.0",
     "lint-staged": "^10.5.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.2.1",
