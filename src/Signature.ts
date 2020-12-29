@@ -215,12 +215,12 @@ export class IfSignature {
     this.isMoving = false
   }
 
-  public async getPngImage(quality: any = 1): Promise<any> {
+  public async getPngImage(quality: any = 1): Promise<string> {
     await sleep(10)
     return Promise.resolve(this.canvas.toDataURL('image/png', quality))
   }
 
-  public async getJpgImage(quality: any = 0.5): Promise<any> {
+  public async getJpgImage(quality: any = 0.5): Promise<string> {
     await sleep(10)
     return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
