@@ -8,13 +8,15 @@ function resolve(p: string): string {
 }
 
 function copyDTS(): void {
-  console.log(chalk.cyan('> start copying .d.ts file to dist dir of packages own.'))
+  console.log(chalk.cyan('> start copying .d.ts file to dist dir of library own.'))
   const sourceDir = resolve('lib/src')
   const targetDir = resolve('lib')
   fsExtra.copySync(sourceDir, targetDir)
   console.log(chalk.cyan('> copy job is done.'))
   execSync(`rm -rf ${resolve('lib/src')}`)
+  execSync(`rm -rf ${resolve('lib/__test__')}`)
   execSync(`rm -rf ${resolve('dist/src')}`)
+  execSync(`rm -rf ${resolve('dist/__test__')}`)
 }
 
 try {

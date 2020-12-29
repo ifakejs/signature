@@ -12,7 +12,7 @@
 ## Install
 
 ```sh
-yarn install @ifake/signature
+yarn add @ifake/signature
 # or
 npm install @ifake/signature
 ```

@@ -12,7 +12,9 @@
     "build": "cross-env NODE_ENV=production rollup -c && yarn run build:clear",
     "build:clear": "ts-node --project tsconfig.build.json scripts/build.ts",
     "start:example": "serve -l 8080 -C -n",
-    "serve": "npm-run-all --parallel start start:**"
+    "serve": "npm-run-all --parallel start start:**",
+    "postpublish": "git push origin --all; git push origin --tags",
+    "postversion": "npm publish"
   },
   "files": [
     "lib",
@@ -54,6 +56,7 @@
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "chalk": "^4.1.0",
+    "codecov": "^3.8.1",
     "cross-env": "^7.0.2",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",

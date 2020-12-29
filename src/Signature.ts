@@ -49,7 +49,7 @@ export class IfSignature {
     const canvas = createElem('canvas') as HTMLCanvasElement
     appendChild($(target) as HTMLElement, canvas)
     addClass(canvas, this.options.className)
-    this.canvas = $(`.${canvas.className}`) as HTMLCanvasElement
+    this.canvas = canvas
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
 
     this.render()
@@ -57,11 +57,11 @@ export class IfSignature {
     this.initialCtxStyle()
     this.bindEvent()
 
-    // custom implementation
+    // Custom handler function
     if (this.options.canvasProcessor && typeof this.options.canvasProcessor === 'function') {
       this.options.canvasProcessor(this.canvas)
     }
-    // custom implementation
+    // Custom handler function
     if (this.options.ctxProcessor && typeof this.options.ctxProcessor === 'function') {
       this.options.ctxProcessor(this.ctx)
     }
