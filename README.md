@@ -77,9 +77,6 @@ Feel free to check [issues page](https://github.com/ifakejs/signature/issues).
 
 Give a ⭐️ if this project helped you!
 
-[![support us](https://img.shields.io/badge/become-a patreon%20us-orange.svg?cacheSeconds=2592000)](https://www.patreon.com/ )
-
-
 ## 📝 License
 
 This project is [MIT](https://github.com/ifakejs/signature/blob/master/LICENSE) licensed.
