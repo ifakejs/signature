@@ -12,6 +12,7 @@ const banner = `/*!
  * @ifake/signature
  * (c) 2020-${new Date().getFullYear()} BiYuqi
  * Released under the MIT License.
+ * https://github.com/ifakejs/signature
  */`
 
 export default {

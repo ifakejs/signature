@@ -22,6 +22,10 @@ npm install @ifake/signature
 ## Usage
 
 - Browser
+```html
+<script src="https://cdn.jsdelivr.net/npm/@ifake/signature/dist/index.umd.js"></script>
+```
+
 ```js
 // We expose a global variable that can be used directly in the browser.
 
