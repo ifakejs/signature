@@ -15,7 +15,7 @@
     "start:example": "serve -l 8080 -C -n",
     "serve": "npm-run-all --parallel start start:**",
     "postpublish": "git push origin --all; git push origin --tags",
-    "postversion": "npm publish"
+    "postversion": "yarn run build && npm publish"
   },
   "publishConfig": {
     "access": "public"
