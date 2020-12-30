@@ -1,6 +1,6 @@
 # Welcome to @ifake/signature 👋
 ![Version](https://img.shields.io/npm/v/@ifake/signature)
-[![codecov](https://codecov.io/gh/ifakejs/signature/branch/master/graph/badge.svg?token=a7710442-2e1c-41cb-ad48-3da63c8ca3bf)](https://codecov.io/gh/ifakejs/signature)
+[![codecov](https://codecov.io/gh/ifakejs/signature/branch/master/graph/badge.svg?token=7nMsRorhf3)](https://codecov.io/gh/ifakejs/signature)
 ![Npm Bundle Size](https://img.shields.io/bundlephobia/min/@ifake/signature)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/ifakejs/signature/blob/master/LICENSE)
 ![Build Status](https://travis-ci.org/ifakejs/signature.svg?branch=master)
@@ -10,7 +10,7 @@
 ### 🏠 [Homepage](https://github.com/ifakejs/signature)
 
 ## Install
-
+Make sure you have node.js installed on your machine before proceeding.
 ```sh
 yarn add @ifake/signature
 # or

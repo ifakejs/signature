@@ -5,11 +5,29 @@ node_js:
 
 install:
   - yarn install
+  - yarn run build
+  - yarn run build:demo
 
 script:
   - yarn run test
   - codecov -f coverage/*.json
 
+after_script:
+  - mkdir deploy
+  - cp index.html ./deploy
+  - cp normal.html ./deploy
+  - cp ./dist/index.umd.js ./deploy
+  - cd ./deploy
+  - git init
+  - git config user.name "BiYuqi"
+  - git config user.email "biyuqiwan@163.com"
+  - git add .
+  - git commit -m "Travis CI Auto Builder at `date +"%Y-%m-%d %H:%M"`"
+  - git push --force --quiet "https://${SIGNATURE}@${GH_REF}" master:gh-pages
+
 branches:
   only:
     - master
+env:
+  global:
+    - GH_REF: github.com/ifakejs/signature.git
