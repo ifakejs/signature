@@ -9,6 +9,8 @@
 
 ### 🏠 [Homepage](https://github.com/ifakejs/signature)
 
+[DEMO](https://ifakejs.github.io/signature/) is here.
+
 ## Install
 Make sure you have node.js installed on your machine before proceeding.
 ```sh
@@ -44,7 +46,7 @@ interface Options {
   strokeStyle?: string | CanvasGradient | CanvasPattern
   fullPage?: boolean
   degree?: number
-  canvasProcessor?: (ctx: HTMLCanvasElement) => void
+  canvasProcessor?: (canvas: HTMLCanvasElement) => void
   ctxProcessor?: (ctx: CanvasRenderingContext2D) => void
 }
 ```

@@ -9,7 +9,7 @@ export interface DefOptions {
   readonly isMobile: boolean
   readonly devicePixelRatio: number
   readonly degree: number
-  ctxProcessor?: (ctx: CanvasRenderingContext2D) => void
+  ctxProcessor?: (canvas: CanvasRenderingContext2D) => void
   canvasProcessor?: (ctx: HTMLCanvasElement) => void
 }
 

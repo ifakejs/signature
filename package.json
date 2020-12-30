@@ -1,6 +1,6 @@
 {
   "name": "@ifake/signature",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A signature library for web.",
   "main": "dist/index.umd.js",
   "module": "lib/index.esm.js",
@@ -16,6 +16,9 @@
     "serve": "npm-run-all --parallel start start:**",
     "postpublish": "git push origin --all; git push origin --tags",
     "postversion": "npm publish"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
     "lib",
