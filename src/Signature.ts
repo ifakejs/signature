@@ -1,5 +1,6 @@
 import { Options, OptionsConstructor } from './Options'
 import { sleep } from './utils/sleep'
+import { base64ToBlob } from './utils/base64ToBlob'
 import {
   $,
   addEvent,
@@ -40,14 +41,19 @@ export class IfSignature {
   public canvasWidth: number = 0
   public canvasHeight: number = 0
   constructor(options: Partial<Options>) {
-    const { target } = options
-    if (!target) {
-      throw `The option [target] must be a dom class name or id which is the parent container of canvas.\nRecommend type an id. e.g: #app`
+    if (!options?.target) {
+      throw new Error(
+        `The option [target] must be a dom class name or id which is the parent container of canvas.\nRecommend type an id. e.g: #app`
+      )
     }
 
     this.options = new OptionsConstructor().merge(options)
     const canvas = createElem('canvas') as HTMLCanvasElement
-    appendChild($(target) as HTMLElement, canvas)
+    const canvasContainer = $(options?.target) as HTMLElement
+    if (!canvasContainer) {
+      throw new Error('Please provide a container for canvas')
+    }
+    appendChild(canvasContainer, canvas)
     addClass(canvas, this.options.className)
     this.canvas = canvas
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D
@@ -73,7 +79,6 @@ export class IfSignature {
 
   public render() {
     const { fullPage } = this.options
-    this.canvas.style.cursor = 'crosshair'
     const { width, height } = window.getComputedStyle(this.ctx.canvas, null)
     try {
       this.canvasWidth = parseInt(width.replace('px', ''), 10)
@@ -87,7 +92,6 @@ export class IfSignature {
     const pageHeight = fullPage ? clientHeight : this.canvasHeight
     this.canvas.style.width = `${pageWidth}px`
     this.canvas.style.height = `${pageHeight}px`
-
     this.canvas.width = Math.floor(pageWidth * this.options.devicePixelRatio)
     this.canvas.height = Math.floor(pageHeight * this.options.devicePixelRatio)
     this.ctx.scale(this.options.devicePixelRatio, this.options.devicePixelRatio)
@@ -123,6 +127,7 @@ export class IfSignature {
   }
 
   private initialCtxStyle(): void {
+    this.canvas.style.cursor = 'crosshair'
     this.ctx.lineJoin = this.options.lineJoin
     this.ctx.lineCap = this.options.lineCap
     this.ctx.lineWidth = this.options.lineWidth
@@ -225,17 +230,41 @@ export class IfSignature {
     return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
 
-  public async getBlob(): Promise<Blob> {
-    const dataURI = await this.getPngImage()
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-    const byteString = atob(dataURI.split(',')[1])
-    const arrayBuffer = new ArrayBuffer(byteString.length)
-    const intArray = new Uint8Array(arrayBuffer)
-    const byteLen = byteString.length
+  public async getBlob(quality?: number): Promise<Blob> {
+    const dataURI = await this.getPngImage(quality)
+    return Promise.resolve(base64ToBlob(dataURI))
+  }
 
-    for (let i = 0; i < byteLen; i++) {
-      intArray[i] = byteString.charCodeAt(i)
+  public async getBlobWithWhiteBG(quality: number = 0.5): Promise<Blob> {
+    await sleep(10)
+    const tempCanvas = createElem('canvas') as HTMLCanvasElement
+    const tempCtx = tempCanvas.getContext('2d') as CanvasRenderingContext2D
+    const { width, height } = window.getComputedStyle(this.ctx.canvas, null)
+    let tempCanvasWidth, tempCanvasHeight
+    try {
+      tempCanvasWidth = parseInt(width.replace('px', ''), 10)
+      tempCanvasHeight = parseInt(height.replace('px', ''), 10)
+    } catch (e) {
+      throw new Error(e.message)
     }
-    return Promise.resolve(new Blob([intArray], { type: mimeString }))
+
+    tempCanvas.style.width = `${tempCanvasWidth}px`
+    tempCanvas.style.height = `${tempCanvasHeight}px`
+    tempCanvas.width = Math.floor(tempCanvasWidth * this.options.devicePixelRatio)
+    tempCanvas.height = Math.floor(tempCanvasHeight * this.options.devicePixelRatio)
+    tempCtx.scale(this.options.devicePixelRatio, this.options.devicePixelRatio)
+    const imgData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height)
+    const data = imgData.data
+    // Saved image antialiasing are not handled very well, still need to find a new solution
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 255) {
+        data[i] = 255
+        data[i + 1] = 255
+        data[i + 2] = 255
+        data[i + 3] = 255
+      }
+    }
+    tempCtx.putImageData(imgData, 0, 0)
+    return Promise.resolve(base64ToBlob(tempCanvas.toDataURL('image/jpeg', quality)))
   }
 }

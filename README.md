@@ -12,19 +12,27 @@
 [DEMO](https://ifakejs.github.io/signature/) is here.
 
 ## Install
-Make sure you have node.js installed on your machine before proceeding.
+Make sure you have [node.js](https://nodejs.org/en/) installed on your machine before proceeding.
 ```sh
+# Make sure you have yarn installed on your machine.
 yarn add @ifake/signature
 # or
 npm install @ifake/signature
 ```
 
+**CDN**
+
+Alternatively, include it via [jsDelivr CDN](https://www.jsdelivr.com/package/npm/@ifake/signature)
+
+UMD:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@ifake/signature@0.0.4/dist/index.umd.min.js"></script>
+```
+
 ## Usage
 
 - Browser
-```html
-<script src="https://cdn.jsdelivr.net/npm/@ifake/signature/dist/index.umd.js"></script>
-```
 
 ```js
 // We expose a global variable that can be used directly in the browser.
@@ -42,15 +50,21 @@ import { IfSignature } from '@ifake/signature'
 ### Options
 ```ts
 interface Options {
+  // the container of the canvas
   target: string,
+  // canvas class name
   className?: string
   lineWidth?: number
   lineCap?: CanvasLineCap
   lineJoin?: CanvasLineJoin
   strokeStyle?: string | CanvasGradient | CanvasPattern
+  // is full screen?
   fullPage?: boolean
+  // rotation degree
   degree?: number
+  // you can get the canvas in this function
   canvasProcessor?: (canvas: HTMLCanvasElement) => void
+  // you can get the context2D instance in this function
   ctxProcessor?: (ctx: CanvasRenderingContext2D) => void
 }
 ```
@@ -59,13 +73,24 @@ interface Options {
 
 ```ts
 interface Methods {
-   destory(): void
-   clear(): void
-   getPngImage(quality?: any): Promise<string>
-   getJpgImage(quality?: any): Promise<string>
-   getBlob(): Promise<Blob>
+  // remove the canvas
+  destory(): void
+  // clear the canvas
+  clear(): void
+  // get the base64 string of png
+  getPngImage(quality?: any): Promise<string>
+  // get the base64 string of jpg
+  getJpgImage(quality?: any): Promise<string>
+  // get the blob data
+  getBlob(quality?: number): Promise<Blob>
+  // get the blob data with white background
+  getBlobWithWhiteBG(quality?: number): Promise<Blob>
 }
 ```
+
+## TODO
+- [x] Support downloading signatures with a white background. - 2021.1.1
+- [ ] Support logging steps to enable undo redo feature
 
 ## Author
 

@@ -110,7 +110,7 @@
   })
 
   $('.get-blob').addEventListener('click', async () => {
-    const blob = await instance.getBlob()
+    const blob = await instance.getBlobWithWhiteBG(1)
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
