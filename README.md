@@ -72,6 +72,11 @@ interface Options {
 ### Instance methods
 
 ```ts
+interface CavasParams {
+  type?: string 
+  quality?: number
+}
+
 interface Methods {
   // remove the canvas
   destory(): void
@@ -82,9 +87,11 @@ interface Methods {
   // get the base64 string of jpg
   getJpgImage(quality?: any): Promise<string>
   // get the blob data
-  getBlob(quality?: number): Promise<Blob>
+  // default { type = 'image/png', quality = 0.92 } 
+  getBlob(CavasParams): Promise<Blob>
   // get the blob data with white background
-  getBlobWithWhiteBG(quality?: number): Promise<Blob>
+  // default { type = 'image/jpeg', quality = 0.92 } 
+  getBlobWithWhiteBG(CavasParams): Promise<Blob>
 }
 ```
 

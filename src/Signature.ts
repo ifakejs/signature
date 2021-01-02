@@ -15,6 +15,11 @@ type StartType = 'touchstart' | 'mousedown'
 type MoveType = 'touchmove' | 'mousemove'
 type EndType = 'touchend' | 'mouseup'
 
+interface CavasParams {
+  type?: string
+  quality?: number
+}
+
 interface EventType {
   start: StartType
   move: MoveType
@@ -230,12 +235,26 @@ export class IfSignature {
     return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
 
-  public async getBlob(quality?: number): Promise<Blob> {
-    const dataURI = await this.getPngImage(quality)
-    return Promise.resolve(base64ToBlob(dataURI))
+  public async getBlob({ type = 'image/png', quality = 0.92 }: CavasParams): Promise<Blob> {
+    return new Promise(resolve => {
+      if (!HTMLCanvasElement.prototype.toBlob) {
+        resolve(base64ToBlob(this.canvas.toDataURL(type, quality)))
+      } else {
+        this.canvas.toBlob(
+          blob => {
+            resolve(blob as Blob)
+          },
+          type,
+          quality
+        )
+      }
+    })
   }
 
-  public async getBlobWithWhiteBG(quality: number = 0.5): Promise<Blob> {
+  public async getBlobWithWhiteBG({
+    type = 'image/jpeg',
+    quality = 0.92
+  }: CavasParams): Promise<Blob> {
     await sleep(10)
     const tempCanvas = createElem('canvas') as HTMLCanvasElement
     const tempCtx = tempCanvas.getContext('2d') as CanvasRenderingContext2D
@@ -265,6 +284,19 @@ export class IfSignature {
       }
     }
     tempCtx.putImageData(imgData, 0, 0)
-    return Promise.resolve(base64ToBlob(tempCanvas.toDataURL('image/jpeg', quality)))
+
+    return new Promise(resolve => {
+      if (!HTMLCanvasElement.prototype.toBlob) {
+        resolve(base64ToBlob(tempCanvas.toDataURL(type, quality)))
+      } else {
+        tempCanvas.toBlob(
+          blob => {
+            resolve(blob as Blob)
+          },
+          type,
+          quality
+        )
+      }
+    })
   }
 }
