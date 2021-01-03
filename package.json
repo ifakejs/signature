@@ -1,6 +1,6 @@
 {
   "name": "@ifake/signature",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A signature library for web.",
   "main": "dist/index.umd.js",
   "module": "lib/index.esm.js",
