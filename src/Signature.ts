@@ -78,10 +78,6 @@ export class IfSignature {
     }
   }
 
-  public destory() {
-    this.canvas?.parentNode?.removeChild(this.canvas)
-  }
-
   public render() {
     const { fullPage } = this.options
     const { width, height } = window.getComputedStyle(this.ctx.canvas, null)
@@ -117,18 +113,6 @@ export class IfSignature {
         break
       default:
     }
-  }
-
-  public clear() {
-    let width, height
-    if (this.options.degree === -90 || this.options.degree === 90) {
-      width = this.canvasHeight
-      height = this.canvasWidth
-    } else {
-      width = this.canvasWidth
-      height = this.canvasHeight
-    }
-    this.ctx.clearRect(0, 0, width, height)
   }
 
   private initialCtxStyle(): void {
@@ -172,7 +156,7 @@ export class IfSignature {
     }
   }
 
-  public bindEvent(): void {
+  private bindEvent(): void {
     const { start, move, end } = this.adaptEventType()
     const requestAnimationFrame = window.requestAnimationFrame
     const optimizedMove = requestAnimationFrame
@@ -193,7 +177,7 @@ export class IfSignature {
     }
   }
 
-  public handleStart(e: Event): void {
+  private handleStart(e: Event): void {
     e.preventDefault()
     this.isMoving = true
     const { left, top } = this.getOffset(e)
@@ -207,7 +191,7 @@ export class IfSignature {
     this.ctx.stroke()
   }
 
-  public handleMove(e: Event): void {
+  private handleMove(e: Event): void {
     e.preventDefault()
     if (this.isMoving) {
       const { left, top } = this.getOffset(e)
@@ -220,7 +204,7 @@ export class IfSignature {
     }
   }
 
-  public handleEnd(e: Event): void {
+  private handleEnd(e: Event): void {
     e.preventDefault()
     this.isMoving = false
   }
@@ -298,5 +282,21 @@ export class IfSignature {
         )
       }
     })
+  }
+
+  public destory() {
+    this.canvas?.parentNode?.removeChild(this.canvas)
+  }
+
+  public clear() {
+    let width, height
+    if (this.options.degree === -90 || this.options.degree === 90) {
+      width = this.canvasHeight
+      height = this.canvasWidth
+    } else {
+      width = this.canvasWidth
+      height = this.canvasHeight
+    }
+    this.ctx.clearRect(0, 0, width, height)
   }
 }
