@@ -15,7 +15,7 @@ type StartType = 'touchstart' | 'mousedown'
 type MoveType = 'touchmove' | 'mousemove'
 type EndType = 'touchend' | 'mouseup'
 
-interface CavasParams {
+interface CanvasParams {
   type?: string
   quality?: number
 }
@@ -219,7 +219,8 @@ export class IfSignature {
     return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
 
-  public async getBlob({ type = 'image/png', quality = 0.92 }: CavasParams): Promise<Blob> {
+  public async getBlob(canvasParams: CanvasParams): Promise<Blob> {
+    const { type = 'image/png', quality = 0.92 } = canvasParams || {}
     return new Promise(resolve => {
       if (!HTMLCanvasElement.prototype.toBlob) {
         resolve(base64ToBlob(this.canvas.toDataURL(type, quality)))
@@ -235,10 +236,8 @@ export class IfSignature {
     })
   }
 
-  public async getBlobWithWhiteBG({
-    type = 'image/jpeg',
-    quality = 0.92
-  }: CavasParams): Promise<Blob> {
+  public async getBlobWithWhiteBG(canvasParams: CanvasParams): Promise<Blob> {
+    const { type = 'image/png', quality = 0.92 } = canvasParams || {}
     await sleep(10)
     const tempCanvas = createElem('canvas') as HTMLCanvasElement
     const tempCtx = tempCanvas.getContext('2d') as CanvasRenderingContext2D

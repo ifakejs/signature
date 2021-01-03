@@ -72,7 +72,7 @@ interface Options {
 ### Instance methods
 
 ```ts
-interface CavasParams {
+interface CanvasParams {
   type?: string 
   quality?: number
 }
@@ -88,10 +88,10 @@ interface Methods {
   getJpgImage(quality?: any): Promise<string>
   // get the blob data
   // default { type = 'image/png', quality = 0.92 } 
-  getBlob(CavasParams): Promise<Blob>
+  getBlob(CanvasParams): Promise<Blob>
   // get the blob data with white background
   // default { type = 'image/jpeg', quality = 0.92 } 
-  getBlobWithWhiteBG(CavasParams): Promise<Blob>
+  getBlobWithWhiteBG(CavnasParams): Promise<Blob>
 }
 ```
 
