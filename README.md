@@ -90,7 +90,7 @@ interface Methods {
   // default { type = 'image/png', quality = 0.92 } 
   getBlob(CanvasParams): Promise<Blob>
   // get the blob data with white background
-  // default { type = 'image/jpeg', quality = 0.92 } 
+  // default { type = 'image/png', quality = 0.92 } 
   getBlobWithWhiteBG(CavnasParams): Promise<Blob>
 }
 ```
