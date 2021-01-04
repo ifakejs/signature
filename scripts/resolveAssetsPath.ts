@@ -3,7 +3,8 @@ import * as path from 'path'
 
 const baseEntry = [
   path.resolve(__dirname, '../index.html'),
-  path.resolve(__dirname, '../normal.html')
+  path.resolve(__dirname, '../index-default.html'),
+  path.resolve(__dirname, '../index-with-guide-line.html')
 ]
 
 function task(entrys: string[]): void {
@@ -14,7 +15,8 @@ function task(entrys: string[]): void {
     if (index === 0) {
       newData = data
         .replace(/dist\/index\.umd\.js/, '/signature/index.umd.js')
-        .replace(/\/normal\.html/, '/signature/normal.html')
+        .replace(/\/index-default\.html/, '/signature/index-default.html')
+        .replace(/\/index-with-guide-line\.html/, '/signature/index-with-guide-line.html')
     } else {
       newData = data.replace(/dist\/index\.umd\.js/, '/signature/index.umd.js')
     }

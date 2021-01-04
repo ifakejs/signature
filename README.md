@@ -88,10 +88,10 @@ interface Methods {
   getJpgImage(quality?: any): Promise<string>
   // get the blob data
   // default { type = 'image/png', quality = 0.92 } 
-  getBlob(CanvasParams): Promise<Blob>
+  getBlob(canvasParams?: CanvasParams): Promise<Blob>
   // get the blob data with white background
   // default { type = 'image/png', quality = 0.92 } 
-  getBlobWithWhiteBG(CavnasParams): Promise<Blob>
+  getBlobWithWhiteBG(canvasParams?: CanvasParams): Promise<Blob>
 }
 ```
 

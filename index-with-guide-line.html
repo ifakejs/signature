@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="A signature library for web &amp; Mobile. Contribute to ifakejs/signature development by creating an account on GitHub.">
+  <title>A Signature Library For Web & Mobile.</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+    #app {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    #app-title {
+      text-align: center;
+      height: 60px;
+      line-height: 60px;
+    }
+    #app canvas {
+      border: 2px dashed #4bc7c4;
+      flex: 1;
+    }
+    a {
+      color: #4bc7c4;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div id="app-title">
+    A signature library for web.
+    <a href="https://github.com/ifakejs/signature" target="_blank" title="Github">Github</a>
+    <button class="get-blob-01" title="Download">下载无网格</button>
+    <button class="get-blob-02" title="Download">下载有网格</button>
+  </div>
+  <!-- canvas will be inject here -->
+</div>
+<script src="dist/index.umd.js"></script>
+<script>
+  function $(target) {
+    return document.querySelector(target)
+  }
+
+  const instance = new window.IfSignature({
+    target: '#app',
+    guideLine: {
+      enable: true
+    }
+  })
+
+  $('.get-blob-01').addEventListener('click', async () => {
+    const blob = await instance.getBlobWithWhiteBG()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.setAttribute('download', 'canvas')
+    a.click()
+  })
+
+  $('.get-blob-02').addEventListener('click', async () => {
+    const blob = await instance.getBlob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.setAttribute('download', 'canvas')
+    a.click()
+  })
+</script>
+</body>
+</html>

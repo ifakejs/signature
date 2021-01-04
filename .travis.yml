@@ -15,7 +15,8 @@ script:
 after_script:
   - mkdir deploy
   - cp index.html ./deploy
-  - cp normal.html ./deploy
+  - cp index-default.html ./deploy
+  - cp index-with-guide-line.html ./deploy
   - cp ./dist/index.umd.js ./deploy
   - cd ./deploy
   - git init
