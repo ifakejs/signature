@@ -99,6 +99,9 @@ interface Methods {
 - [x] Support downloading signatures with a white background. - 2021.1.1
 - [ ] Support logging steps to enable undo redo feature
 
+## CHANGELOG
+[CHANGELOG](https://github.com/ifakejs/signature/blob/master/CHANGELOG.md) is here.
+
 ## Author
 
 👤 **ifake**
