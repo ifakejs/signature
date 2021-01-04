@@ -15,7 +15,9 @@
     "start:example": "serve -l 8080 -C -n",
     "serve": "npm-run-all --parallel start start:**",
     "postpublish": "git push origin --all; git push origin --tags",
-    "postversion": "yarn run build && npm publish"
+    "postversion": "yarn run build && npm publish",
+    "release": "ts-node --project tsconfig.build.json scripts/release.ts",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "publishConfig": {
     "access": "public"
@@ -35,7 +37,8 @@
   "homepage": "https://github.com/ifakejs/signature",
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "lint-staged": {
@@ -49,6 +52,8 @@
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@rollup/plugin-babel": "^5.2.2",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",
@@ -62,6 +67,7 @@
     "@typescript-eslint/parser": "^4.9.0",
     "chalk": "^4.1.0",
     "codecov": "^3.8.1",
+    "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.2",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
