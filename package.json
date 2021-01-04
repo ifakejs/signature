@@ -14,9 +14,8 @@
     "build:demo": "ts-node --project tsconfig.build.json scripts/resolveAssetsPath.ts",
     "start:example": "serve -l 8080 -C -n",
     "serve": "npm-run-all --parallel start start:**",
-    "postpublish": "git push origin --all; git push origin --tags",
+    "postpublish": "yarn run changelog && git push origin --all; git push origin --tags",
     "postversion": "yarn run build && npm publish",
-    "release": "ts-node --project tsconfig.build.json scripts/release.ts",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "publishConfig": {
