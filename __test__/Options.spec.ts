@@ -11,7 +11,13 @@ describe('Options', () => {
     fullPage: false,
     isMobile: false,
     devicePixelRatio: 1,
-    degree: 0
+    degree: 0,
+    guideLine: {
+      enable: false,
+      lineWidth: 0.5,
+      lineColor: '#f5f5f5',
+      step: 20
+    }
   }
 
   beforeEach(() => {
@@ -74,6 +80,48 @@ describe('Options', () => {
     })
     it('real machine devicePixelRatio', () => {
       expect(opts.devicePixelRatio).toBe(3)
+    })
+  })
+
+  describe('guideLine', () => {
+    it('enable', () => {
+      opts.merge({
+        // @ts-ignore
+        guideLine: {
+          enable: true
+        }
+      })
+      expect(opts.guideLine.enable).toBe(true)
+    })
+
+    it('lineColor', () => {
+      opts.merge({
+        // @ts-ignore
+        guideLine: {
+          lineColor: '#eee'
+        }
+      })
+      expect(opts.guideLine.lineColor).toBe('#eee')
+    })
+
+    it('lineWidth', () => {
+      opts.merge({
+        // @ts-ignore
+        guideLine: {
+          lineWidth: 30
+        }
+      })
+      expect(opts.guideLine.lineWidth).toBe(30)
+    })
+
+    it('step', () => {
+      opts.merge({
+        // @ts-ignore
+        guideLine: {
+          step: 90
+        }
+      })
+      expect(opts.guideLine.step).toBe(90)
     })
   })
 })

@@ -1,3 +1,10 @@
+interface GuideLine {
+  enable: boolean
+  step: number
+  lineColor: string
+  lineWidth: number
+}
+
 export interface DefOptions {
   [key: string]: any
   readonly className: string
@@ -11,6 +18,7 @@ export interface DefOptions {
   readonly degree: number
   ctxProcessor?: (canvas: CanvasRenderingContext2D) => void
   canvasProcessor?: (ctx: HTMLCanvasElement) => void
+  guideLine: GuideLine
 }
 
 export class CustomOptions {}
@@ -30,6 +38,7 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
   readonly degree: number
   ctxProcessor?: (ctx: CanvasRenderingContext2D) => void
   canvasProcessor?: (ctx: HTMLCanvasElement) => void
+  guideLine: GuideLine
   constructor() {
     super()
     this.className = 'ifake-signature'
@@ -43,13 +52,23 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
     )
     this.devicePixelRatio = Math.max(window.devicePixelRatio || 1, 1)
     this.degree = 0
+    this.guideLine = {
+      enable: false,
+      lineColor: '#f5f5f5',
+      lineWidth: 0.5,
+      step: 20
+    }
   }
 
   merge(options?: Partial<Options>) {
     if (!options) return this
     for (const key in options) {
       if (!blockProperties.includes(key)) {
-        this[key] = options[key]
+        if (key === 'guideLine') {
+          this[key] = { ...this[key], ...options[key] }
+        } else {
+          this[key] = options[key]
+        }
       }
     }
     return this

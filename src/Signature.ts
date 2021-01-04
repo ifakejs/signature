@@ -68,6 +68,10 @@ export class IfSignature {
     this.initialCtxStyle()
     this.bindEvent()
 
+    if (this.options.guideLine.enable) {
+      this.guideLine()
+    }
+
     // Custom handler function
     if (this.options.canvasProcessor && typeof this.options.canvasProcessor === 'function') {
       this.options.canvasProcessor(this.canvas)
@@ -219,7 +223,7 @@ export class IfSignature {
     return Promise.resolve(this.canvas.toDataURL('image/jpeg', quality))
   }
 
-  public async getBlob(canvasParams: CanvasParams): Promise<Blob> {
+  public async getBlob(canvasParams?: CanvasParams): Promise<Blob> {
     const { type = 'image/png', quality = 0.92 } = canvasParams || {}
     return new Promise(resolve => {
       if (!HTMLCanvasElement.prototype.toBlob) {
@@ -236,7 +240,7 @@ export class IfSignature {
     })
   }
 
-  public async getBlobWithWhiteBG(canvasParams: CanvasParams): Promise<Blob> {
+  public async getBlobWithWhiteBG(canvasParams?: CanvasParams): Promise<Blob> {
     const { type = 'image/png', quality = 0.92 } = canvasParams || {}
     await sleep(10)
     const tempCanvas = createElem('canvas') as HTMLCanvasElement
@@ -283,6 +287,31 @@ export class IfSignature {
     })
   }
 
+  private guideLine(): void {
+    const { step, lineWidth, lineColor } = this.options.guideLine
+    this.ctx.save()
+    this.ctx.strokeStyle = lineColor
+    this.ctx.lineWidth = lineWidth
+    const isRotate = Math.abs(this.options.degree) === 90
+    const realHeight = isRotate ? this.canvasWidth : this.canvasHeight
+    const realWidth = isRotate ? this.canvasHeight : this.canvasWidth
+
+    for (let i = 0.5 + step; i < realHeight; i += step) {
+      this.ctx.beginPath()
+      this.ctx.moveTo(0, i)
+      this.ctx.lineTo(realWidth, i)
+      this.ctx.stroke()
+    }
+
+    for (let i = 0.5 + step; i < realWidth; i += step) {
+      this.ctx.beginPath()
+      this.ctx.moveTo(i, 0)
+      this.ctx.lineTo(i, realHeight)
+      this.ctx.stroke()
+    }
+    this.ctx.restore()
+  }
+
   public destory() {
     this.canvas?.parentNode?.removeChild(this.canvas)
   }
@@ -297,5 +326,8 @@ export class IfSignature {
       height = this.canvasHeight
     }
     this.ctx.clearRect(0, 0, width, height)
+    if (this.options.guideLine.enable) {
+      this.guideLine()
+    }
   }
 }
