@@ -49,6 +49,12 @@ import { IfSignature } from '@ifake/signature'
 
 ### Options
 ```ts
+interface GuideLine {
+  enable: boolean
+  step: number
+  lineColor: string
+  lineWidth: number
+}
 interface Options {
   // the container of the canvas
   target: string,
@@ -62,6 +68,8 @@ interface Options {
   fullPage?: boolean
   // rotation degree
   degree?: number
+  // guideLine config
+  guideLine?: GuideLine
   // you can get the canvas in this function
   canvasProcessor?: (canvas: HTMLCanvasElement) => void
   // you can get the context2D instance in this function

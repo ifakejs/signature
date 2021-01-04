@@ -1,3 +1,12 @@
+# [0.5.0](https://github.com/ifakejs/signature/compare/v0.3.0...v0.5.0) (2021-01-04)
+
+
+### Features
+
+* support guideline ([19c509b](https://github.com/ifakejs/signature/commit/19c509be09855c8d60304aef4dad04f4395534ec))
+
+
+
 # 0.3.0 (2021-01-04)
 
 
