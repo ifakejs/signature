@@ -1,4 +1,4 @@
-interface GuideLine {
+export interface GuideLine {
   enable: boolean
   step: number
   lineColor: string

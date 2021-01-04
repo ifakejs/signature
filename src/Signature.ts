@@ -15,7 +15,7 @@ type StartType = 'touchstart' | 'mousedown'
 type MoveType = 'touchmove' | 'mousemove'
 type EndType = 'touchend' | 'mouseup'
 
-interface CanvasParams {
+export interface CanvasParams {
   type?: string
   quality?: number
 }
@@ -26,7 +26,7 @@ interface EventType {
   end: EndType
 }
 
-interface Point {
+export interface Point {
   x: number
   y: number
 }
