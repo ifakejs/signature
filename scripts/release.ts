@@ -1,3 +1,4 @@
+// Reference from https://github.com/vitejs/vite. Thanks vitejs.
 import * as path from 'path'
 import * as fs from 'fs'
 import enquirer from 'enquirer'
@@ -9,12 +10,12 @@ const args = require('minimist')(process.argv.slice(2))
 type ReleaseType = 'major' | 'premajor' | 'minor' | 'preminor' | 'patch' | 'prepatch' | 'prerelease'
 
 const pkgDir = process.cwd()
-const pkgPath = path.resolve(pkgDir, '../package.json')
+const pkgPath = path.resolve(pkgDir, 'package.json')
 const pkg = require(pkgPath)
-const pkgName = pkg.name.replace(/^@ifake\//, '')
+const pkgName = pkg.name
 const currentVersion = pkg.version
 
-const versionIncrements = [
+const versionIncrements: Array<ReleaseType> = [
   'patch',
   'minor',
   'major',
@@ -24,11 +25,26 @@ const versionIncrements = [
   'prerelease'
 ]
 
+/**
+ * @type {boolean}
+ */
+const isDryRun = args.dry
+/**
+ * @type {boolean}
+ */
+const skipBuild = args.skipBuild
+
 const inc = (i: ReleaseType) => semver.inc(currentVersion, i)
 
 const step = (msg: string) => console.log(chalk.cyan(msg))
 
-const run = (bin: string, args: any[], opts = {}) => execa(bin, args, { stdio: 'inherit', ...opts })
+const run = (bin: string, args: string[], opts = {}) =>
+  execa(bin, args, { stdio: 'inherit', ...opts })
+
+const dryRun = (bin: string, args: string[], opts = {}) =>
+  console.log(chalk.blue(`[dryrun] ${bin} ${args.join(' ')}`), opts)
+
+const runIfNotDry = isDryRun ? dryRun : run
 
 async function worker() {
   let targetVersion = args._[0]
@@ -76,6 +92,13 @@ async function worker() {
   step('\nUpdating package version...')
   updateVersion(targetVersion)
 
+  step('\nBuilding package...')
+  if (!skipBuild && !isDryRun) {
+    await run('yarn', ['build'])
+  } else {
+    console.log(`(skipped)`)
+  }
+
   step('\nGenerating changelog...')
   await run('yarn', ['changelog'])
 
@@ -100,6 +123,7 @@ async function worker() {
 function updateVersion(version: string) {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
   pkg.version = version
+  console.log(pkg)
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
 }
 
@@ -129,6 +153,6 @@ async function publishPackage(version: string, runIfNotDry: Function) {
   }
 }
 
-worker().then(arg => {
-  console.log(arg)
+worker().catch(err => {
+  console.error(err)
 })
