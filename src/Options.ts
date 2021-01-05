@@ -21,11 +21,10 @@ export interface DefOptions {
   guideLine: GuideLine
 }
 
-export class CustomOptions {}
-export interface Options extends DefOptions, CustomOptions {}
+export interface Options extends DefOptions {}
 const blockProperties = ['devicePixelRatio', 'isMobile']
 
-export class OptionsConstructor extends CustomOptions implements DefOptions {
+export class OptionsConstructor implements DefOptions {
   [key: string]: any
   readonly className: string
   readonly lineWidth: number
@@ -40,7 +39,6 @@ export class OptionsConstructor extends CustomOptions implements DefOptions {
   canvasProcessor?: (ctx: HTMLCanvasElement) => void
   guideLine: GuideLine
   constructor() {
-    super()
     this.className = 'ifake-signature'
     this.lineWidth = 4
     this.lineCap = 'round'
