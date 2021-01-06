@@ -123,7 +123,6 @@ async function worker() {
 function updateVersion(version: string) {
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
   pkg.version = version
-  console.log(pkg)
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
 }
 
