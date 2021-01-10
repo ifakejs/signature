@@ -11,9 +11,10 @@
     "start": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w",
     "build": "rimraf dist && rimraf dist lib && cross-env NODE_ENV=production rollup -c rollup.config.ts && yarn run build:types",
     "build:types": "tsc -p tsconfig.type.json && api-extractor run && rimraf ./temp",
-    "build:demo": "ts-node --project tsconfig.build.json scripts/resolveAssetsPath.ts",
     "start:example": "serve -l 8080 -C -n",
     "serve": "npm-run-all --parallel start start:**",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path .",
     "release": "ts-node --project tsconfig.build.json scripts/release.ts"
   },
@@ -58,9 +59,7 @@
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@rollup/plugin-typescript": "^8.1.0",
-    "@types/chalk": "^2.2.0",
     "@types/eslint-plugin-prettier": "^3.1.0",
-    "@types/execa": "^2.0.0",
     "@types/fs-extra": "^9.0.6",
     "@types/minimist": "^1.2.1",
     "@types/node": "^14.14.16",
@@ -91,9 +90,11 @@
     "serve": "^11.3.2",
     "ts-jest": "^26.4.4",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "vuepress": "^1.8.0"
   },
   "dependencies": {
-    "@babel/runtime": "^7.12.5"
+    "@babel/runtime": "^7.12.5",
+    "@ifake/signature": "^0.5.1"
   }
 }

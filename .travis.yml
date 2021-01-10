@@ -6,19 +6,14 @@ node_js:
 install:
   - yarn install
   - yarn run build
-  - yarn run build:demo
+  - yarn run docs:build
 
 script:
   - yarn run test
   - codecov -f coverage/*.json
 
 after_script:
-  - mkdir deploy
-  - cp index.html ./deploy
-  - cp index-default.html ./deploy
-  - cp index-with-guide-line.html ./deploy
-  - cp ./dist/index.umd.js ./deploy
-  - cd ./deploy
+  - cd ./docs/.vuepress/dist
   - git init
   - git config user.name "BiYuqi"
   - git config user.email "biyuqiwan@163.com"
