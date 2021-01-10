@@ -1,3 +1,7 @@
+## [0.5.2](https://github.com/ifakejs/signature/compare/v0.5.1...v0.5.2) (2021-01-10)
+
+
+
 ## [0.5.1](https://github.com/ifakejs/signature/compare/v0.3.0...v0.5.1) (2021-01-06)
 
 
