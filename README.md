@@ -7,6 +7,8 @@
 
 > A signature library based on HTML5 canvas.
 
+The scaffolding for this project is from [pkg](https://github.com/ifakejs/signature)
+
 ### 🏠 [Homepage](https://github.com/ifakejs/signature)
 
 [Document](https://ifakejs.github.io/signature/) is here.
