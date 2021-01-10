@@ -5,7 +5,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Build Status](https://travis-ci.org/ifakejs/signature.svg?branch=master)
 
-> A Signature Library For Web & Mobile.
+> A signature library based on HTML5 canvas.
 
 ### 🏠 [Homepage](https://github.com/ifakejs/signature)
 

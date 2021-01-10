@@ -1,20 +1,19 @@
-const path = require('path')
 const zh = require('./zh')
 const en = require('./en')
 
 const config = {
   base: process.env.NODE === 'development' ? '/' : '/signature/',
   port: 7788,
-  title: 'Signature',
-  description: '一款支持web和移动端的手写签名库',
+  title: 'A signature library based on HTML5 Canvas',
+  description: '基于HTML5 Canvas的签名库',
   locales: {
     '/': {
       lang: 'zh-CN',
-      description: '一款支持web和移动端的手写签名库',
+      description: '基于HTML5 Canvas的签名库',
     },
     '/en/': {
       lang: 'en-US',
-      description: 'A signature library for Web & Mobile.'
+      description: 'A signature library based on HTML5 canvas.'
     }
   },
   themeConfig: {
