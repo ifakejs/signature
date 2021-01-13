@@ -11,10 +11,10 @@ npm install @ifake/signature
 [jsDelivr CDN](https://www.jsdelivr.com/package/npm/@ifake/signature)
 
 UMD:
-
+![Version](https://img.shields.io/npm/v/@ifake/signature)
 ```html
 <!-- Please use latest stable version -->
-<script src="https://cdn.jsdelivr.net/npm/@ifake/signature@0.5.1/dist/index.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ifake/signature@0.5.2/dist/index.umd.min.js"></script>
 ```
 
 ## Usage

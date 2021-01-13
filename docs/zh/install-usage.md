@@ -11,9 +11,10 @@ npm install @ifake/signature
 
 UMD:
 
+![Version](https://img.shields.io/npm/v/@ifake/signature)
 ```html
-<!-- 版本号请使用最新版本 -->
-<script src="https://cdn.jsdelivr.net/npm/@ifake/signature@0.5.1/dist/index.umd.min.js"></script>
+<!-- 版本号请使用最新版本 --> 
+<script src="https://cdn.jsdelivr.net/npm/@ifake/signature@0.5.2/dist/index.umd.min.js"></script>
 ```
 
 ## 使用
