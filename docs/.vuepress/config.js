@@ -4,8 +4,8 @@ const en = require('./en')
 const config = {
   base: process.env.NODE === 'development' ? '/' : '/signature/',
   port: 7788,
-  title: 'A signature library based on HTML5 Canvas',
-  description: '基于HTML5 Canvas的签名库',
+  title: '基于HTML5 Canvas的签名库',
+  description: 'Typescript, HTML5, Cnavas Signature. 基于HTML5 Canvas的签名库.',
   locales: {
     '/': {
       lang: 'zh-CN',
