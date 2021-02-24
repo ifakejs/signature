@@ -9,7 +9,7 @@
     "lint": "eslint src --fix --ext .ts",
     "test": "jest --coverage",
     "start": "cross-env NODE_ENV=development rollup -c rollup.config.ts -w",
-    "build": "rimraf dist && rimraf dist lib && cross-env NODE_ENV=production rollup -c rollup.config.ts && yarn run build:types",
+    "build": "rimraf dist && rimraf dist lib && cross-env NODE_ENV=production rollup -c rollup.config.ts",
     "build:types": "tsc -p tsconfig.type.json && api-extractor run && rimraf ./temp",
     "start:example": "serve -l 8080 -C -n",
     "serve": "npm-run-all --parallel start start:**",

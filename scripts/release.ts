@@ -99,6 +99,9 @@ async function worker() {
     console.log(`(skipped)`)
   }
 
+  step('\nBuilding package types...')
+  await run('yarn', ['build:types'])
+
   step('\nGenerating changelog...')
   await run('yarn', ['changelog'])
 
