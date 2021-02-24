@@ -46,7 +46,7 @@ export default {
     !isDev &&
       terser({
         format: {
-          comments: function (_, comment) {
+          comments: (_, comment) => {
             // Only the current copyright information is retained
             return /@ifake/i.test(comment.value)
           }

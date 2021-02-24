@@ -3,7 +3,8 @@
   "projectFolder": ".",
   "mainEntryPointFilePath": "./temp/src/index.d.ts",
   "apiReport": {
-    "enabled": false
+    "enabled": true,
+    "reportFolder": "<projectFolder>/temp/"
   },
   "docModel": {
     "enabled": true

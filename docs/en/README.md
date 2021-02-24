@@ -2,7 +2,7 @@
 home: true
 heroText: '@ifake/signature'
 actionText: Quick Start →
-actionLink: /en/install-usage/
+actionLink: /en/install-usage
 features:
 - title: Simple
   details: Only contains core handwriting functions, the API is simple enough, easy to get started

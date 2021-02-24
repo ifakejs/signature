@@ -3,7 +3,7 @@ home: true
 # heroImage: /hero.png
 heroText: '@ifake/signature'
 actionText: 快速上手 →
-actionLink: /zh/install-usage/
+actionLink: /zh/install-usage
 features:
 - title: 简约
   details: 只包含核心手写功能, API足够简单, 易上手
