@@ -42,4 +42,18 @@ const config = {
   }
 }
 
+if (process.env.NODE_ENV === "production") {
+  config.head = [
+    ['script', {}, `
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?8faa098277022476dc8324ce5ab48375";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    `]
+  ]
+}
+
 module.exports = config
