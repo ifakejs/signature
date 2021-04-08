@@ -1,14 +1,17 @@
 module.exports = {
-  presets: [
-    [
-      '@babel/preset-env',
-      {
-        modules: false,
-        targets: { node: 'current' }
-      }
-    ]
+  presets: [['@babel/preset-env']],
+  plugins: [
+    '@babel/plugin-transform-runtime',
+    {
+      corejs: {
+        version: 3,
+        proposals: true
+      },
+      helpers: true,
+      regenerator: true,
+      useESModules: true
+    }
   ],
-  plugins: ['@babel/plugin-transform-runtime'],
   env: {
     test: {
       plugins: ['@babel/plugin-transform-modules-commonjs']

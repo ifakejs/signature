@@ -2,6 +2,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import babel from '@rollup/plugin-babel'
 import json from '@rollup/plugin-json'
+import replace from '@rollup/plugin-replace'
 import { terser } from 'rollup-plugin-terser'
 import typescript from '@rollup/plugin-typescript'
 const pkg = require('./package.json')
@@ -34,13 +35,17 @@ export default {
       banner
     }
   ],
-  external: [...Object.keys(pkg.dependencies)],
+  external: [...Object.keys(pkg.dependencies || {}), ...Object.keys(pkg.peerDependencies || {})],
   plugins: [
     nodeResolve(),
     commonjs(),
     babel({
       babelHelpers: 'runtime',
       exclude: /node_modules/
+    }),
+    replace({
+      preventAssignment: true,
+      'process.env.NODE_ENV': isDev ? JSON.stringify('development') : JSON.stringify('production')
     }),
     json(),
     !isDev &&

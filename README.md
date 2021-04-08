@@ -20,6 +20,10 @@ The scaffolding for this project is from [pkg](https://github.com/ifakejs/pkg)
 ## CHANGELOG
 [CHANGELOG](https://github.com/ifakejs/signature/blob/master/CHANGELOG.md) is here.
 
+## Notes
+We use the native [`Promise`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%85%BC%E5%AE%B9%E6%80%A7) and no polyfill for it. If you need to use it in IE Browser, You should import polyfill by yourself.
+[core-js](https://github.com/zloirock/core-js#readme)
+
 ## Author
 
 👤 **ifake**
